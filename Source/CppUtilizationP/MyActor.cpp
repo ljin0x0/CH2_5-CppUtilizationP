@@ -8,6 +8,12 @@ AMyActor::AMyActor()
 	: positionX(0)
 	, positionY(0)
 	, positionZ(0)
+	, MinValue(-50)
+	, MaxValue(50)
+	, RandomNumber1(0)
+	, RandomNumber2(0)
+	, RandomNumber3(0)
+	, StartLocation(0)
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
@@ -26,6 +32,8 @@ void AMyActor::BeginPlay() //시작 시 한 번 실행
 	positionY = StartLocation.Y;
 	positionZ = StartLocation.Z;
 
+	randomNumber();
+
 }
 
 //Called every frame
@@ -33,9 +41,16 @@ void AMyActor::Tick(float DeltaTime) //매 프레임마다 호출
 {
 	Super::Tick(DeltaTime); // 부모 클래스의 Tick도 실행
 
-	move(20 * DeltaTime, 0, 20 * DeltaTime); //X방향 20, Y방향 0, Z방향 20 으로 프레임마다 이동
-	turn(40 * DeltaTime, 0, 40 * DeltaTime); //Pitch(위아래) 40, Yaw(좌우) 0, Rall(기울기) 40 으로 프레임마다 회전
+	if (Counter < MaxCount)
+	{
+		
+		//move(20 * DeltaTime, 0, 20 * DeltaTime); //X방향 20, Y방향 0, Z방향 20 으로 프레임마다 이동
+		move(RandomNumber1 * DeltaTime, RandomNumber2 * DeltaTime, RandomNumber3 * DeltaTime);
 
+		//turn(40 * DeltaTime, 0, 40 * DeltaTime); //Pitch(위아래) 40, Yaw(좌우) 0, Rall(기울기) 40 으로 프레임마다 회전
+		turn(RandomNumber1 * DeltaTime, RandomNumber2 * DeltaTime, RandomNumber3 * DeltaTime);
+
+	}
 
 }
 
@@ -55,4 +70,37 @@ void AMyActor::turn(float deltaPitch, float deltaYaw, float deltaRoll) //액터 
 	FRotator DeltaRotation(deltaPitch, deltaYaw, deltaRoll);
 
 	AddActorWorldRotation(DeltaRotation);
+}
+
+void AMyActor::randomNumber()
+{
+	for (int i = 0; i < 10; i++)
+	{
+		RandomNumber1 = FMath::RandRange(MinValue, MaxValue);
+		RandomNumber2 = FMath::RandRange(MinValue, MaxValue);
+		RandomNumber3 = FMath::RandRange(MinValue, MaxValue);
+	
+	}
+
+	Counter++;
+
+}
+
+void AMyActor::printNumber()
+{
+	if (Counter >= MaxCount)
+	{
+		return;
+	}
+
+	GEngine->AddOnScreenDebugMessage
+	(
+		-1,
+		30.0f,
+		FColor::Green,
+		FString::Printf(TEXT("positionX = %d, positionY = %d, positionZ = %d, Count = %d"), RandomNumber1, RandomNumber2, RandomNumber3, Counter)
+
+	);
+
+
 }

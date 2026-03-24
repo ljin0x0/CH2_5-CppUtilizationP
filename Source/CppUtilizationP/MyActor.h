@@ -18,6 +18,12 @@ public:
 	void move(float deltaX, float deltaY, float deltaZ); //액터 위치 이동
 	void turn(float deltaPitch, float deltaYaw, float deltaRoll); //액터 회전
 
+	UFUNCTION(BlueprintCallable)
+	void randomNumber();
+	
+	UFUNCTION(BlueprintCallable)
+	void printNumber();
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,5 +40,15 @@ private:
 	float positionZ; //Z 위치
 
 	FVector StartLocation;
+
+	int MinValue;
+	int MaxValue;
+
+	int RandomNumber1;
+	int RandomNumber2;
+	int RandomNumber3;
+
+	int32 Counter = 0;
+	const int32 MaxCount = 10;
 
 };

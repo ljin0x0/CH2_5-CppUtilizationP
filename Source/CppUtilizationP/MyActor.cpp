@@ -28,12 +28,13 @@ void AMyActor::BeginPlay() //시작 시 한 번 실행
 
 }
 
- //Called every frame
+//Called every frame
 void AMyActor::Tick(float DeltaTime) //매 프레임마다 호출
 {
 	Super::Tick(DeltaTime); // 부모 클래스의 Tick도 실행
 
 	move(20 * DeltaTime, 0, 20 * DeltaTime); //X방향 20, Y방향 0, Z방향 20 으로 프레임마다 이동
+	turn(40 * DeltaTime, 0, 40 * DeltaTime); //Pitch(위아래) 40, Yaw(좌우) 0, Rall(기울기) 40 으로 프레임마다 회전
 
 
 }
@@ -45,7 +46,13 @@ void AMyActor::move(float deltaX, float deltaY, float deltaZ) //액터 이동
 	NewLocation.X += deltaX; //기존 위치에 이동할 거리 더해서 새로운 위치 구함
 	NewLocation.Y += deltaY;
 	NewLocation.Z += deltaZ;
-	
+
 	SetActorLocation(NewLocation); //새로 구한 위치 액터에 적용
 }
 
+void AMyActor::turn(float deltaPitch, float deltaYaw, float deltaRoll) //액터 회전
+{
+	FRotator DeltaRotation(deltaPitch, deltaYaw, deltaRoll);
+
+	AddActorWorldRotation(DeltaRotation);
+}

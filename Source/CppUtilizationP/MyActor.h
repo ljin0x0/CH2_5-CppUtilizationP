@@ -16,6 +16,8 @@ public:
 	AMyActor();
 
 	void move(float deltaX, float deltaY, float deltaZ); //액터 위치 이동
+	void turn(float deltaPitch, float deltaYaw, float deltaRoll); //액터 회전
+
 
 protected:
 	// Called when the game starts or when spawned
